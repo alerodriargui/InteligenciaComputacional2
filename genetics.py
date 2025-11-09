@@ -237,47 +237,72 @@ class GeneticAlgorithmVRP:
         pop = self.initial_population()
         fitnesses = self.evaluate_population(pop)
         best_history = []
+        mean_history = []
         start_time = time.time()
+
         for gen in range(self.generations):
             new_pop = []
-            # elitism: copy best individuals
+            # --- elitism ---
             elite_idxs = sorted(range(len(pop)), key=lambda i: fitnesses[i])[:self.elitism]
             for i in elite_idxs:
                 new_pop.append(copy.deepcopy(pop[i]))
-            # generate new offspring
+
+            # --- offspring generation ---
             while len(new_pop) < self.pop_size:
                 p1 = tournament_selection(pop, fitnesses, k=self.tournament_k)
+                p2 = tournament_selection(pop, fitnesses, k=self.tournament_k)
                 if random.random() < self.cx_rate:
-                    p2 = tournament_selection(pop, fitnesses, k=self.tournament_k)
                     c1, c2 = order_crossover(p1, p2)
                 else:
-                    c1 = p1[:]
-                    c2 = tournament_selection(pop, fitnesses, k=self.tournament_k)
+                    c1, c2 = p1[:], p2[:]
+
+                # --- more aggressive mutation ---
+                c1 = swap_mutation(c1, self.mut_rate)
                 c1 = inversion_mutation(c1, self.mut_rate)
+                c2 = swap_mutation(c2, self.mut_rate)
                 c2 = inversion_mutation(c2, self.mut_rate)
+
                 new_pop.append(c1)
                 if len(new_pop) < self.pop_size:
                     new_pop.append(c2)
+
             pop = new_pop
             fitnesses = self.evaluate_population(pop)
+
             best_f = min(fitnesses)
+            mean_f = np.mean(fitnesses)
             best_idx = min(range(len(pop)), key=lambda i: fitnesses[i])
             best_ind = pop[best_idx]
             best_details = fitness(best_ind, self.customers, self.vehicle_capacity, self.penalty_per_kg)[1]
+
             best_history.append((gen, best_f, best_details))
-            if verbose and (gen % max(1,self.generations//10) == 0):
-                print(f"Gen {gen:04d}: best fitness={best_f:.3f}, distance={best_details['distance']:.3f}, overflow={best_details['overflow']:.3f}, routes={len(best_details['routes'])}")
+            mean_history.append(mean_f)
+
+            if verbose and (gen % max(1, self.generations // 10) == 0):
+                print(f"Gen {gen:04d}: best={best_f:.2f}, mean={mean_f:.2f}, dist={best_details['distance']:.2f}, overflow={best_details['overflow']:.2f}, routes={len(best_details['routes'])}")
+
+            # Optional random immigrants every 30 generations to avoid stagnation
+            if gen % 30 == 0 and gen > 0:
+                n_imm = int(0.05 * self.pop_size)
+                for _ in range(n_imm):
+                    immigrant = self.customer_ids[:]
+                    random.shuffle(immigrant)
+                    pop[random.randint(0, self.pop_size - 1)] = immigrant
+
         end_time = time.time()
         best_gen, best_f, best_details = min(best_history, key=lambda x: x[1])
+
         result = {
             'best_fitness': best_f,
             'best_routes': best_details['routes'],
             'best_distance': best_details['distance'],
             'best_overflow': best_details['overflow'],
-            'time': end_time-start_time,
-            'history': best_history
+            'time': end_time - start_time,
+            'history': best_history,
+            'mean_history': mean_history
         }
         return result
+
 
 # ---------------------- Experiment runner & scenarios ----------------------
 
@@ -320,17 +345,24 @@ def demo_run():
             print(f"  Route {i}: {r} load={load:.2f} dist={route_distance(r, customers):.2f}")
         # optionally plot progress if matplotlib available
         if _HAS_MATPLOTLIB:
-            gens = [g for (g,_,_) in res['history']]
-            vals = [f for (_,f,_) in res['history']]
-            plt.figure(figsize=(6,3))
-            plt.plot(gens, vals)
+            gens = [g for (g, _, _) in res['history']]
+            vals = [f for (_, f, _) in res['history']]
+            mean_vals = res.get('mean_history', [])
+
+            plt.figure(figsize=(6, 3))
+            plt.plot(gens, vals, label="Best fitness")
+            if mean_vals:
+                plt.plot(gens, mean_vals, label="Mean fitness", linestyle="--")
             plt.title(f"{name} fitness history")
-            plt.xlabel('Generation')
-            plt.ylabel('Fitness')
+            plt.xlabel("Generation")
+            plt.ylabel("Fitness")
+            plt.legend()
             plt.tight_layout()
             fname = f"fitness_{name}.png"
             plt.savefig(fname)
+            plt.close()
             print(f"Saved fitness plot: {fname}")
+
 
 if __name__ == '__main__':
     demo_run()
