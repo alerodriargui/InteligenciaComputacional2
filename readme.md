@@ -13,7 +13,7 @@ Runnable Python implementation (single-file) of a **Genetic Algorithm (GA)** for
 
 ## How to Run
 ```bash
-python genetics.py
+python p2basico.py
 ```
 
 ---
