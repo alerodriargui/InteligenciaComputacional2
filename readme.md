@@ -1,7 +1,5 @@
 # Vehicle Routing Problem (VRP) — Algoritmo Genético
 
-**Repositorio / Script:** `p2Basico.py`
-
 ## Resumen
 
 Proyecto de ejemplo que implementa un algoritmo genético simple para optimizar rutas de entrega (VRP) para un único depósito y una flota de vehículos con capacidad limitada. Este script está pensado como punto de partida para la práctica `Assignment 2: Delivery route optimization using genetic algorithms` (Inteligencia Computacional — curso 25/26).
@@ -47,7 +45,7 @@ pip install matplotlib
 ```
 
 
-Salida esperada (ejemplo):
+Salida esperada:
 - Número de clientes válidos e inválidos
 - Lista de demandas válidas/invalidas
 - Mejor orden de visita (permutación de índices de clientes válidos)
@@ -105,8 +103,7 @@ El script incluye una función `plot_rutas(rutas)` que dibuja:
 - Número de generaciones: `100, 500, 2000`
 - Probabilidad de mutación: `0.01, 0.05, 0.1, 0.2`
 - Métodos de selección: torneo (k=2,3), ruleta, ranking
-- Cruces alternativos: OX (Order Crossover), PMX, CX
-- Añadir penalización por número de viajes para preferir soluciones con menos viajes
+- Cruces alternativos: OX (Order Crossover)
 
 
 ## Uso
@@ -149,8 +146,7 @@ En este experimento modificamos la capacidad del vehículo a 80 kg, ya que un cl
 - Número de generaciones: `100, 500, 2000`
 - Probabilidad de mutación: `0.01, 0.05, 0.1, 0.2`
 - Métodos de selección: torneo (k=2,3), ruleta, ranking
-- Cruces alternativos: OX (Order Crossover), PMX, CX
-- Añadir penalización por número de viajes para preferir soluciones con menos viajes
+- Cruces alternativos: OX (Order Crossover)
 
 
 ## Uso
@@ -161,7 +157,7 @@ python p2Capacity80.py
 ```
 
 ## Observaciones
-En este escenario todos los clientes son considerados válidos, incluso aquellos cuya demanda supera el límite habitual de capacidad. Esto permite trabajar con un caso “sin restricciones”, útil para comparar el efecto que tiene (o no) imponer un límite de carga por vehículo.
+En este escenario todos los clientes son considerados válidos, incluso aquellos cuya demanda supera el límite habitual de capacidad. Esto permite trabajar con un caso “sin restricciones”, útil para comparar el efecto que tiene imponer un límite de carga por vehículo.
 
 El algoritmo genera un orden de visita que cubre a los 5 clientes y calcula una distancia total de 350.93 unidades, algo mayor que en el ejemplo restringido debido a que hay más paradas obligatorias.
 
