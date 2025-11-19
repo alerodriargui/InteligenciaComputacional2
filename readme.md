@@ -1,19 +1,9 @@
 # Vehicle Routing Problem (VRP) — Algoritmo Genético
 
-**Repositorio / Script:** `p2Basico.py`
-
 ## Resumen
 
 Proyecto de ejemplo que implementa un algoritmo genético simple para optimizar rutas de entrega (VRP) para un único depósito y una flota de vehículos con capacidad limitada. Este script está pensado como punto de partida para la práctica `Assignment 2: Delivery route optimization using genetic algorithms` (Inteligencia Computacional — curso 25/26).
 
-El ejemplo incluye:
-- Cálculo de demandas por cliente a partir de pedidos y pesos de ítems.
-- Filtrado de clientes cuya demanda excede la capacidad del vehículo.
-- Representación de soluciones como permutaciones de índices de clientes válidos.
-- Operadores genéticos: selección por torneo (2), cruce de orden parcial/PMX-like y mutación por intercambio.
-- División automática de la permutación en varios viajes según la capacidad del vehículo.
-- Cálculo de la distancia euclídea total considerando que cada viaje vuelve al depósito.
-- Visualización de las rutas y la carga por viaje mediante `matplotlib`.
 
 
 ## Datos iniciales (ejemplo)
@@ -47,7 +37,7 @@ pip install matplotlib
 ```
 
 
-Salida esperada (ejemplo):
+Salida esperada:
 - Número de clientes válidos e inválidos
 - Lista de demandas válidas/invalidas
 - Mejor orden de visita (permutación de índices de clientes válidos)
@@ -72,32 +62,6 @@ Salida esperada (ejemplo):
 - **Algoritmo principal:** `algoritmo_genetico(n_generaciones, tam_pob)` que devuelve la mejor solución encontrada.
 
 
-## Restricciones y penalizaciones
-- **Restricciones duras (hard constraints):**
-  - Ningún viaje puede exceder la capacidad del vehículo — la función `dividir_en_rutas` asegura que la solución se divida correctamente. En esta implementación no se permiten clientes que por sí solos superen la capacidad (se clasifican como inválidos y se descartan).
-
-- **Restricciones suaves (soft constraints):**
-  - Balanceo de carga entre viajes (no explícitamente penalizado). Si se desea priorizar balanceo, se puede añadir un término punitivo en la función `fitness` para viajes con cargas muy dispares.
-
-
-
-## Función de fitness
-- La función objetivo minimiza la distancia total recorrida por todos los viajes (siempre con retorno al depósito). Es una métrica directa y alineada con el coste del transporte.
-- Si se añaden penalizaciones, la forma general puede ser:
-
-```
-fitness = distancia_total + alpha * penalizacion_capacidad + beta * penalizacion_balance
-```
-
-Donde `alpha` y `beta` son constantes que calibran la importancia de las penalizaciones.
-
-## Visualización
-El script incluye una función `plot_rutas(rutas)` que dibuja:
-- Depósito en rojo
-- Clientes válidos en azul (con etiquetas)
-- Clientes inválidos marcados con `x` gris y texto `Inválido`
-- Cada viaje dibujado con un color distinto y con la carga total indicada en el centro del viaje
-
 
 ## Primer experimento (Problema inicial)
 
@@ -105,8 +69,7 @@ El script incluye una función `plot_rutas(rutas)` que dibuja:
 - Número de generaciones: `100, 500, 2000`
 - Probabilidad de mutación: `0.01, 0.05, 0.1, 0.2`
 - Métodos de selección: torneo (k=2,3), ruleta, ranking
-- Cruces alternativos: OX (Order Crossover), PMX, CX
-- Añadir penalización por número de viajes para preferir soluciones con menos viajes
+- Cruces alternativos: OX (Order Crossover)
 
 
 ## Uso
@@ -149,8 +112,7 @@ En este experimento modificamos la capacidad del vehículo a 80 kg, ya que un cl
 - Número de generaciones: `100, 500, 2000`
 - Probabilidad de mutación: `0.01, 0.05, 0.1, 0.2`
 - Métodos de selección: torneo (k=2,3), ruleta, ranking
-- Cruces alternativos: OX (Order Crossover), PMX, CX
-- Añadir penalización por número de viajes para preferir soluciones con menos viajes
+- Cruces alternativos: OX (Order Crossover)
 
 
 ## Uso
@@ -161,7 +123,7 @@ python p2Capacity80.py
 ```
 
 ## Observaciones
-En este escenario todos los clientes son considerados válidos, incluso aquellos cuya demanda supera el límite habitual de capacidad. Esto permite trabajar con un caso “sin restricciones”, útil para comparar el efecto que tiene (o no) imponer un límite de carga por vehículo.
+En este escenario todos los clientes son considerados válidos, incluso aquellos cuya demanda supera el límite habitual de capacidad. Esto permite trabajar con un caso “sin restricciones”, útil para comparar el efecto que tiene imponer un límite de carga por vehículo.
 
 El algoritmo genera un orden de visita que cubre a los 5 clientes y calcula una distancia total de 350.93 unidades, algo mayor que en el ejemplo restringido debido a que hay más paradas obligatorias.
 
