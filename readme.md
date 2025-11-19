@@ -4,14 +4,6 @@
 
 Proyecto de ejemplo que implementa un algoritmo genético simple para optimizar rutas de entrega (VRP) para un único depósito y una flota de vehículos con capacidad limitada. Este script está pensado como punto de partida para la práctica `Assignment 2: Delivery route optimization using genetic algorithms` (Inteligencia Computacional — curso 25/26).
 
-El ejemplo incluye:
-- Cálculo de demandas por cliente a partir de pedidos y pesos de ítems.
-- Filtrado de clientes cuya demanda excede la capacidad del vehículo.
-- Representación de soluciones como permutaciones de índices de clientes válidos.
-- Operadores genéticos: selección por torneo (2), cruce de orden parcial/PMX-like y mutación por intercambio.
-- División automática de la permutación en varios viajes según la capacidad del vehículo.
-- Cálculo de la distancia euclídea total considerando que cada viaje vuelve al depósito.
-- Visualización de las rutas y la carga por viaje mediante `matplotlib`.
 
 
 ## Datos iniciales (ejemplo)
@@ -69,32 +61,6 @@ Salida esperada:
   - `mutacion(ruta, prob)` — swap aleatorio con probabilidad `prob`.
 - **Algoritmo principal:** `algoritmo_genetico(n_generaciones, tam_pob)` que devuelve la mejor solución encontrada.
 
-
-## Restricciones y penalizaciones
-- **Restricciones duras (hard constraints):**
-  - Ningún viaje puede exceder la capacidad del vehículo — la función `dividir_en_rutas` asegura que la solución se divida correctamente. En esta implementación no se permiten clientes que por sí solos superen la capacidad (se clasifican como inválidos y se descartan).
-
-- **Restricciones suaves (soft constraints):**
-  - Balanceo de carga entre viajes (no explícitamente penalizado). Si se desea priorizar balanceo, se puede añadir un término punitivo en la función `fitness` para viajes con cargas muy dispares.
-
-
-
-## Función de fitness
-- La función objetivo minimiza la distancia total recorrida por todos los viajes (siempre con retorno al depósito). Es una métrica directa y alineada con el coste del transporte.
-- Si se añaden penalizaciones, la forma general puede ser:
-
-```
-fitness = distancia_total + alpha * penalizacion_capacidad + beta * penalizacion_balance
-```
-
-Donde `alpha` y `beta` son constantes que calibran la importancia de las penalizaciones.
-
-## Visualización
-El script incluye una función `plot_rutas(rutas)` que dibuja:
-- Depósito en rojo
-- Clientes válidos en azul (con etiquetas)
-- Clientes inválidos marcados con `x` gris y texto `Inválido`
-- Cada viaje dibujado con un color distinto y con la carga total indicada en el centro del viaje
 
 
 ## Primer experimento (Problema inicial)
