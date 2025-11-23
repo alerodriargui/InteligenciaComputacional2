@@ -11,7 +11,7 @@ The project explores how capacity constraints and fleet size impact logistics ef
 
 ## 👥 Authors
 
-Work developed for the **Computational Intelligence** course by:
+Work developed by:
 
 *   **Alejandro Rodríguez Arguimbau**
 *   **Soufyane Youbi**
