@@ -84,6 +84,4 @@ The study is divided into three progressive notebooks. It is recommended to foll
 
 3.  **Run the notebooks:**
     Open Jupyter Notebook or VS Code and execute the cells in order.
-    ```bash
-    jupyter notebook
-    ```
+
