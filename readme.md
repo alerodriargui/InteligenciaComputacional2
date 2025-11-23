@@ -2,6 +2,16 @@
 
 This repository contains three notebooks solving a **Vehicle Routing Problem (VRP)** using Genetic Algorithms.
 
+## Authors
+
+This project was developed by the following members of the group:
+
+- Alejandro Rodríguez Arguimbau
+
+- Soufyane Youbi
+
+- Pau Girón Rodríguez
+
 ## Notebooks and Execution Order
 
 1. **`VRP_basico.ipynb`** – Single vehicle with 60 kg capacity (default problem).
