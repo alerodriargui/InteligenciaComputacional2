@@ -1,21 +1,39 @@
-# Guía Rápida: Experimentos VRP con Algoritmo Genético
+# Quick Guide: VRP Experiments with a Genetic Algorithm
 
-Este repositorio contiene 3 notebooks de **Problema de Enrutamiento de Vehículos (VRP)** usando Algoritmos Genéticos.
+This repository contains three notebooks solving a **Vehicle Routing Problem (VRP)** using Genetic Algorithms.
 
-## Notebooks y Orden de Ejecución
+## Notebooks and Execution Order
 
-1. **`VRP_basico.ipynb`** – 1 vehículo con capacidad de 60 kg (problema por defecto).
-2. **`VRP_80Capacity.ipynb`** – 1 vehículo con capacidad de 80 kg.
-3. **`2Vehicles_80capacity.ipynb`** – Dos vehículos con capacidad de 80 kg.
+1. **`VRP_basico.ipynb`** – Single vehicle with 60 kg capacity (default problem).
+2. **`VRP_80Capacity.ipynb`** – Single vehicle with 80 kg capacity.
+3. **`2Vehicles_80capacity.ipynb`** – Two vehicles with 80 kg capacity.
 
-> Ejecutar los notebooks en este orden para mantener consistencia y poder comparar resultados.
+> Run the notebooks in this order to keep the workflow consistent and enable proper comparison of results.
 
-## Requisitos
+## Requirements
 
-Instalar librerías necesarias:
+Install the required libraries:
 ```bash
 pip install -r requirements.txt
 ```
+
+
+## Scenario Comparison Table
+
+| Metric / Scenario | Capacity 60 kg | Capacity 80 kg | Multi-Trip (80 kg, 2 Vehicles) |
+|------------------|----------------|----------------|---------------------------------|
+| **Feasibility** | 4/5 customers served | 5/5 customers served | 5/5 customers served |
+| **Invalid Customers** | C5 (77.7 kg) | None | None |
+| **Total Demand Served** | 149.4 kg | 227.1 kg | 227.1 kg |
+| **Number of Trips** | 3 trips | 3 trips | 3 trips total (V1 ×2, V2 ×1) |
+| **Vehicle Occupancy** | 60–100% (high fragmentation) | 97–99% (high saturation) | Similar to 80 kg scenario |
+| **Route Efficiency** | Low (forced extra routes) | High (consolidated loads) | High, but requires waiting for returns |
+| **Fleet Required** | 1 vehicle per trip | 1 vehicle per trip | 2 vehicles, reused in shifts |
+| **Operational Cost** | High (many partial loads) | Lower (nearly full trucks) | Lower investment, higher operation time |
+| **Logistical Limitation** | Capacity too small | Balanced | Time / scheduling |
+| **Key Advantage** | Simple but limited | Full coverage + optimal filling | Full service without adding trucks |
+
+
 
 
 
