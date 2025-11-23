@@ -1,6 +1,5 @@
 # 🚚 VRP Experiments with Genetic Algorithm
 
-![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python&logoColor=white)
 ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-orange?style=for-the-badge&logo=jupyter&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Completed-green?style=for-the-badge)
 
